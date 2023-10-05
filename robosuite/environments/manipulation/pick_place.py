@@ -205,9 +205,17 @@ class PickPlace(SingleArmEnv):
     ):
         # task settings
         self.single_object_mode = single_object_mode
-        self.object_to_id = {"milk": 0, "bread": 1, "cereal": 2, "can": 3, "pepsi": 4, "sprite": 5}
+        self.object_to_id = {"milk": 0, "bread": 1, "cereal": 2, "can": 3, "pepsi": 3, "sprite": 3}
+        if object_type == "can":
+            self.CUSTOM_CAN_OBJECT = CanObject
+        elif object_type == "pepsi":
+            self.CUSTOM_CAN_OBJECT = PepsiObject
+        elif object_type == "sprite":
+            self.CUSTOM_CAN_OBJECT = SpriteObject
+        else:
+            raise AssertionError("Invalid object type specified!")
         self.object_id_to_sensors = {}  # Maps object id to sensor names for that object
-        self.obj_names = ["Milk", "Bread", "Cereal", "Can", "Pepsi", "Sprite"]
+        self.obj_names = ["Milk", "Bread", "Cereal", "Can"]
         if object_type is not None:
             assert object_type in self.object_to_id.keys(), "invalid @object_type argument - choose one of {}".format(
                 list(self.object_to_id.keys())
@@ -497,7 +505,7 @@ class PickPlace(SingleArmEnv):
         """
         self.objects = []
         for obj_cls, obj_name in zip(
-                (MilkObject, BreadObject, CerealObject, CanObject, PepsiObject, SpriteObject),
+                (MilkObject, BreadObject, CerealObject, self.CUSTOM_CAN_OBJECT),
                 self.obj_names,
         ):
             obj = obj_cls(name=obj_name)
