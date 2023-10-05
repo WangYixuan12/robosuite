@@ -481,13 +481,13 @@ class PickPlace(SingleArmEnv):
         Function that can be overriden by subclasses to load different objects.
         """
         self.visual_objects = []
-        for vis_obj_cls, obj_name in zip(
-                (MilkVisualObject, BreadVisualObject, CerealVisualObject, CanVisualObject),
-                self.obj_names,
-        ):
-            vis_name = "Visual" + obj_name
-            vis_obj = vis_obj_cls(name=vis_name)
-            self.visual_objects.append(vis_obj)
+        # for vis_obj_cls, obj_name in zip(
+        #         (MilkVisualObject, BreadVisualObject, CerealVisualObject, CanVisualObject),
+        #         self.obj_names,
+        # ):
+        #     vis_name = "Visual" + obj_name
+        #     vis_obj = vis_obj_cls(name=vis_name)
+        #     self.visual_objects.append(vis_obj)
 
     def _construct_objects(self):
         """
