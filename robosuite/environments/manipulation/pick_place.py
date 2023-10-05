@@ -10,6 +10,8 @@ from robosuite.models.objects import (
     BreadObject,
     BreadVisualObject,
     CanObject,
+    PepsiObject,
+    SpriteObject,
     CanVisualObject,
     CerealObject,
     CerealVisualObject,
@@ -203,9 +205,9 @@ class PickPlace(SingleArmEnv):
     ):
         # task settings
         self.single_object_mode = single_object_mode
-        self.object_to_id = {"milk": 0, "bread": 1, "cereal": 2, "can": 3}
+        self.object_to_id = {"milk": 0, "bread": 1, "cereal": 2, "can": 3, "pepsi": 4, "sprite": 5}
         self.object_id_to_sensors = {}  # Maps object id to sensor names for that object
-        self.obj_names = ["Milk", "Bread", "Cereal", "Can"]
+        self.obj_names = ["Milk", "Bread", "Cereal", "Can", "Pepsi", "Sprite"]
         if object_type is not None:
             assert object_type in self.object_to_id.keys(), "invalid @object_type argument - choose one of {}".format(
                 list(self.object_to_id.keys())
@@ -495,7 +497,7 @@ class PickPlace(SingleArmEnv):
         """
         self.objects = []
         for obj_cls, obj_name in zip(
-                (MilkObject, BreadObject, CerealObject, CanObject),
+                (MilkObject, BreadObject, CerealObject, CanObject, PepsiObject, SpriteObject),
                 self.obj_names,
         ):
             obj = obj_cls(name=obj_name)
@@ -836,3 +838,23 @@ class PickPlaceCan(PickPlace):
     def __init__(self, **kwargs):
         assert "single_object_mode" not in kwargs and "object_type" not in kwargs, "invalid set of arguments"
         super().__init__(single_object_mode=2, object_type="can", **kwargs)
+
+
+class PickPlacePepsi(PickPlace):
+    """
+    Easier version of task - place one pepsi into its bin.
+    """
+
+    def __init__(self, **kwargs):
+        assert "single_object_mode" not in kwargs and "object_type" not in kwargs, "invalid set of arguments"
+        super().__init__(single_object_mode=2, object_type="pepsi", **kwargs)
+
+
+class PickPlaceSprite(PickPlace):
+    """
+    Easier version of task - place one sprite into its bin.
+    """
+    
+    def __init__(self, **kwargs):
+        assert "single_object_mode" not in kwargs and "object_type" not in kwargs, "invalid set of arguments"
+        super().__init__(single_object_mode=2, object_type="sprite", **kwargs)
